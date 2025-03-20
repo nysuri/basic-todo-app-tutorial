@@ -25,9 +25,8 @@ public class GlobalErrorHandler {
 
     private HttpStatus getHttpStatus(RuntimeException exception) {
         return switch (exception) {
-            case NotFoundException ex -> HttpStatus.NOT_FOUND;
-            case BadRequestException ex -> HttpStatus.BAD_REQUEST;
-            case MalformedIDException ex -> HttpStatus.BAD_REQUEST;
+            case NotFoundException _ -> HttpStatus.NOT_FOUND;
+            case BadRequestException _, MalformedIDException _ -> HttpStatus.BAD_REQUEST;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
 
         };
