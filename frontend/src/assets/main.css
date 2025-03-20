@@ -14,7 +14,65 @@ body {
 }
 
 .container {
-  padding: 1.25rem 5vw;
-  max-width: 768px;
+  padding: 1.25rem 0;
+  max-width: 640px;
   margin: 0 auto;
+}
+
+/* Checkbox styles */
+/* From Uiverse.io by Nawsome */
+/* Hide the default checkbox */
+.checkbox input[type='checkbox'] {
+  display: none;
+}
+
+/* Style the custom checkbox */
+.checkbox label {
+  position: relative;
+  padding-left: 30px;
+  padding-top: 2.5px;
+  cursor: pointer;
+  display: inline-block;
+  color: #333;
+}
+
+/* Create the box for the checkbox */
+.checkbox label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  transition:
+    background-color 0.3s,
+    border-color 0.3s;
+}
+
+/* Style the checkmark */
+.checkbox label:after {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 3px;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Change the box color and show the checkmark when checked */
+.checkbox input[type='checkbox']:checked + label:before {
+  background-color: #0d9488;
+  border-color: #0d9488;
+}
+
+.checkbox input[type='checkbox']:checked + label:after {
+  opacity: 1;
 }
