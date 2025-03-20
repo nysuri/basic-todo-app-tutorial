@@ -1,6 +1,8 @@
 package nl.hva.my_todo_app.controller;
 
 import nl.hva.my_todo_app.model.Task;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -23,14 +25,14 @@ public class TaskController {
     }
 
     @GetMapping("{id}")
-    public Task getTaskById(@PathVariable int id) {
+    public ResponseEntity<Task> getTaskById(@PathVariable int id) {
         for (Task task : tasks) {
             if (task.getId() == id) {
-                return task;
+                return ResponseEntity.ok(task);
             }
         }
 
-       return null;
+       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
     }
 
@@ -41,16 +43,16 @@ public class TaskController {
     }
 
     @PutMapping("{id}")
-    public Task update(@PathVariable int id, @RequestBody Task taskToUpdate) {
+    public ResponseEntity<Task> update(@PathVariable int id, @RequestBody Task taskToUpdate) {
         for (Task task : tasks) {
             if (task.getId() == id) {
                 task.setTitle(taskToUpdate.getTitle());
                 task.setCompleted(taskToUpdate.isCompleted());
-                return taskToUpdate;
+                return ResponseEntity.accepted().body(taskToUpdate);
             }
         }
 
-        return null;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     
