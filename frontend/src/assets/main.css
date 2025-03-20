@@ -1,0 +1,20 @@
+:root {
+  --primary-clr: #0d9488;
+  --light-clr: #d4d4d8;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: black;
+  color: white;
+}
+
+.container {
+  padding: 1.25rem 5vw;
+  max-width: 768px;
+  margin: 0 auto;
+}
