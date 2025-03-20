@@ -1,13 +1,11 @@
 package nl.hva.my_todo_app.model;
 
 public class Task {
-    public static int GENERATED_ID = 0;
     private int id;
     private String title;
     private boolean completed;
 
     public Task(String title) {
-        this.id = ++GENERATED_ID;
         this.title = title;
     }
 
