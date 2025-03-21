@@ -28,7 +28,7 @@ const tasks = [
       <div class="list-item">
         <div class="checkbox">
           <input type="checkbox" id="checkbox-1" />
-          <label for="checkbox-1">{{ tasks[0].title }}</label>
+          <label for="checkbox-1" class="active">{{ tasks[0].title }}</label>
         </div>
         <X :size="24" class="close" />
       </div>
@@ -52,7 +52,8 @@ const tasks = [
 
 <style scoped>
 .active {
-  background-color: white;
+  color: lightgray;
+  text-decoration: line-through;
   border-bottom: 0;
 }
 .container {
