@@ -7,7 +7,7 @@
 
     <nav>
       <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">New</RouterLink>
+      <RouterLink to="/todo">Todolist</RouterLink>
     </nav>
   </header>
 </template>
