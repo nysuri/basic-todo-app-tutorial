@@ -40,13 +40,13 @@ const tasks = [
         </div>
         <X :size="24" class="close" />
       </div>
-
-      <!-- Form for adding a new task -->
-      <form>
-        <input type="text" placeholder="title for todo..." />
-        <button class="btn btn-add">Add <Plus /></button>
-      </form>
     </div>
+
+    <!-- Form for adding a new task -->
+    <form>
+      <input type="text" placeholder="title for todo..." />
+      <button class="btn btn-add">Add <Plus /></button>
+    </form>
   </div>
 </template>
 
