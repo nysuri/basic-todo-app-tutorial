@@ -4,13 +4,13 @@ import { ListChecks, X, Plus } from 'lucide-vue-next'
 const tasks = [
   {
     id: 1,
-    title: 'Go the groceries.',
-    completed: true,
+    title: 'Groceries.',
+    completed: false,
   },
   {
     id: 2,
-    title: 'Go the groceries.',
-    completed: false,
+    title: 'Do the dishes.',
+    completed: true,
   },
 ]
 </script>
@@ -28,7 +28,7 @@ const tasks = [
       <div class="list-item">
         <div class="checkbox">
           <input type="checkbox" id="checkbox-1" />
-          <label for="checkbox-1" class="active">{{ tasks[0].title }}</label>
+          <label for="checkbox-1">{{ tasks[0].title }}</label>
         </div>
         <X :size="24" class="close" />
       </div>
