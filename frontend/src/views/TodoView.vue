@@ -51,7 +51,7 @@ const tasks = [
 </template>
 
 <style scoped>
-.active {
+.completed {
   color: lightgray;
   text-decoration: line-through;
   border-bottom: 0;
