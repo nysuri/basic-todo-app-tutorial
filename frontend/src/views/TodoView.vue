@@ -51,11 +51,6 @@ const tasks = [
 </template>
 
 <style scoped>
-.completed {
-  color: lightgray;
-  text-decoration: line-through;
-  border-bottom: 0;
-}
 .container {
   padding: 2.5rem;
   height: 80vh;
@@ -71,7 +66,11 @@ h1 {
 .icon {
   color: var(--primary-clr);
 }
-
+.title-container {
+  display: flex;
+  justify-content: space-between;
+}
+/* // Styles for todo-list */
 .todo-list {
   display: flex;
   flex-direction: column;
@@ -81,6 +80,12 @@ h1 {
   overflow: auto;
 }
 
+/* Styles for list-item */
+.completed {
+  color: lightgray;
+  text-decoration: line-through;
+  border-bottom: 0;
+}
 .list-item {
   display: flex;
   justify-content: space-between;
@@ -92,13 +97,8 @@ h1 {
 .close:hover {
   color: red;
 }
-.btn-add {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background-color: var(--primary-clr);
-  color: #fff;
-}
+
+/* Styles for adding todo section */
 form {
   display: flex;
   gap: 16px;
@@ -106,8 +106,11 @@ form {
 form > input {
   width: 80%;
 }
-.title-container {
+.btn-add {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--primary-clr);
+  color: #fff;
 }
 </style>
