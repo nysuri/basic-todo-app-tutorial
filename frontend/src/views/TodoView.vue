@@ -84,7 +84,9 @@ async function addTodo() {
             :checked="task.completed"
             @change="toggleComplete(task.id)"
           />
-          <label :for="'checkbox-' + task.id">{{ task.title }}</label>
+          <label :for="'checkbox-' + task.id" :class="{ completed: task.completed }">{{
+            task.title
+          }}</label>
         </div>
         <X :size="24" v-if="task.completed" class="close" />
       </div>
