@@ -1,18 +1,69 @@
 <script setup lang="ts">
+import type { Task } from '@/types'
 import { ListChecks, X, Plus } from 'lucide-vue-next'
+import { ref, onMounted, computed } from 'vue'
 
-const tasks = [
-  {
-    id: 1,
-    title: 'Groceries.',
-    completed: false,
-  },
-  {
-    id: 2,
-    title: 'Do the dishes.',
-    completed: true,
-  },
-]
+const title = ref('')
+const tasks = ref<Task[]>([])
+
+// this automatically gets changed when the tasks array gets changed (computed!)
+const amountCompleted = computed(() => tasks.value.filter((x) => x.completed).length)
+
+onMounted(async () => {
+  await fetchTodos()
+})
+
+// fetching and setting the data from backend
+const fetchTodos = async (): Promise<void> => {
+  try {
+    const response = await fetch('http://localhost:8080/api/tasks')
+    const data = await response.json()
+    tasks.value = data
+  } catch (err: unknown) {
+    console.log(err)
+  }
+}
+
+// updating a single task
+async function toggleComplete(id: number): Promise<void> {
+  const foundTask = tasks.value.find((x) => x.id === id)
+  if (!foundTask) return // do nothing when no task found
+
+  // true => !true | false => !false
+  foundTask.completed = !foundTask.completed
+
+  try {
+    const response = await fetch(`http://localhost:8080/api/tasks/${foundTask.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(foundTask),
+    })
+
+    // Check if the response is OK (status 200-299)
+    if (!response.ok) {
+      console.log(`Error: ${response.status}`)
+      return
+    }
+  } catch (err: unknown) {
+    console.log(err)
+  }
+}
+
+async function addTodo() {
+  try {
+    const response = await fetch('http://localhost:8080/api/tasks', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title: title.value }),
+    })
+    const data = await response.json()
+    tasks.value.push(data)
+  } catch (err: unknown) {
+    console.log(err)
+  }
+
+  title.value = ''
+}
 </script>
 
 <template>
@@ -20,32 +71,29 @@ const tasks = [
     <!-- Title -->
     <div class="title-container">
       <h1><ListChecks class="icon" :size="32" /> Todo List</h1>
-      <div>1 / 2</div>
+      <div>{{ amountCompleted }} / {{ tasks.length }}</div>
     </div>
 
     <div class="todo-list">
       <!-- Tasks list -->
-      <div class="list-item">
+      <div v-for="task in tasks" :key="task.id" class="list-item">
         <div class="checkbox">
-          <input type="checkbox" id="checkbox-1" />
-          <label for="checkbox-1">{{ tasks[0].title }}</label>
+          <input
+            type="checkbox"
+            :id="'checkbox-' + task.id"
+            :checked="task.completed"
+            @change="toggleComplete(task.id)"
+          />
+          <label :for="'checkbox-' + task.id">{{ task.title }}</label>
         </div>
-        <X :size="24" class="close" />
-      </div>
-
-      <div class="list-item">
-        <div class="checkbox">
-          <input type="checkbox" id="checkbox-2" />
-          <label for="checkbox-2">{{ tasks[1].title }}</label>
-        </div>
-        <X :size="24" class="close" />
+        <X :size="24" v-if="task.completed" class="close" />
       </div>
     </div>
 
     <!-- Form for adding a new task -->
     <form>
-      <input type="text" placeholder="title for todo..." />
-      <button class="btn btn-add">Add <Plus /></button>
+      <input type="text" placeholder="title for todo..." v-model="title" />
+      <button class="btn btn-add" @click.prevent="addTodo">Add <Plus /></button>
     </form>
   </div>
 </template>

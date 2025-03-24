@@ -1,4 +1,5 @@
 <script lang="ts"></script>
+
 <template>
   <header class="container">
     <RouterLink to="/">
