@@ -1,10 +1,8 @@
 package nl.hva.my_todo_app.controller;
 
 import nl.hva.my_todo_app.model.Task;
-import nl.hva.my_todo_app.repository.TaskRepo;
 import nl.hva.my_todo_app.service.TaskService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +19,8 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<Task> getTasks() {
+    public List<Task> getTasks(@RequestParam(required = false) String prefix) {
+        if (prefix != null) return service.getTasksStartingWith(prefix);
         return service.getAllTasks();
     }
 
@@ -48,5 +47,8 @@ public class TaskController {
         service.deleteTask(id);
     }
 
-
+    @GetMapping("/completed")
+    public List<Task> getCompletedTasks() {
+        return service.getCompletedTasks();
+    }
 }

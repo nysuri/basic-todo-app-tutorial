@@ -23,9 +23,7 @@ public class TaskService {
     }
 
     public Task getTaskById(int id) {
-        var task = taskRepo.getById(id);
-
-        return task.orElseThrow(() -> new NotFoundException("Task not found!"));
+        return taskRepo.findById(id).orElseThrow(() -> new NotFoundException("Task not found!"));
     }
 
     public Task createTask(Task taskToSave) {
@@ -33,17 +31,38 @@ public class TaskService {
 
         validateTitle(taskToSave.getTitle());
 
+        if (taskRepo.existsByTitle(taskToSave.getTitle())) {
+            throw new IllegalArgumentException("Title should be unique!");
+        }
         return taskRepo.save(taskToSave);
     }
 
     public void updateTask(int id, Task taskToUpdate) {
-        taskRepo.update(id, taskToUpdate)
-                .orElseThrow(() -> new NotFoundException("Task with provided ID does not exist!"));
+        if (id != (taskToUpdate.getId()))
+            throw new IllegalArgumentException("Given id is not equal to task id");
 
+        if (taskRepo.existsByTitle(taskToUpdate.getTitle()))
+            throw new RuntimeException("Title should be unique!");
+
+        taskRepo.findById(id)
+                .map(foundTask -> {
+                    foundTask.setTitle(taskToUpdate.getTitle());
+                    foundTask.setCompleted(taskToUpdate.isCompleted());
+                    return taskRepo.save(foundTask);
+                })
+                .orElseThrow(() -> new NotFoundException("Task not found with ID: " + id));
     }
 
     public void deleteTask(int id) {
-        taskRepo.delete(id);
+        taskRepo.deleteById(id);
+    }
+
+    public List<Task> getCompletedTasks() {
+        return taskRepo.findByCompleted(true);
+    }
+
+    public List<Task> getTasksStartingWith(String prefix) {
+        return taskRepo.findByTitleStartingWithIgnoreCase(prefix);
     }
 
 
